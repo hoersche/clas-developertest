@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "CLAS",
+  "classifications": [ "Web" ], 
+  "name": "CLAS Web Application",
+  "identity": "CLAS.Web",
+  "shortName": "clasWeb",
+  "tags": {
+    "language": "C#",
+    "type":"project"
+  },
+  "sourceName": "OrderManager",
+  "preferNameDirectory": true,
+  "symbols":{
+    "includetest": {
+        "type": "parameter",
+        "datatype": "bool",
+        "defaultValue": "true"
+    },  
+    "productionServer": {
+      "type": "parameter",
+      "defaultValue": "itsnt2351",
+      "replaces": "itsnt2351"
+    },
+    "testServer": {
+      "type": "parameter",
+      "defaultValue": "itsnt1956",
+      "replaces": "itsnt1956"
+    },
+    "productionCname": {
+      "type": "parameter",
+      "defaultValue": "apps.clas.uiowa.edu"
+    },
+    "testCname": {
+      "type": "parameter",
+      "defaultValue": "apps-test.clas.uiowa.edu"
+    }
+  },
+  "sources":[{
+    "modifiers": [
+      {
+        "rename": {
+          "gitignore": ".gitignore"
+        }
+      },
+      {
+      "condition": "(!includetest)",
+      "exclude": [
+        "OrderManager.Tests/**/*"
+      ]
+      },
+      {
+        "exclude": [
+          "OrderManager.Web/angular/node_modules/**/*",
+          "OrderManager.Web.Client/node_modules/**/*",
+          "OrderManager.Web.Client/dist/**/*",
+          "**/bin/**/*",
+          "**/obj/**/*",
+          ".idea/**",
+          ".vs/**"
+        ]
+      }
+    ]
+  }]
+}
