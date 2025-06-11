@@ -18,8 +18,8 @@ export const routes: Routes = [
   {
     path: 'orders',
     component: OrdersComponent,
-    canActivate: [RoleGuard],
-    data: { roles: ['BasicUser', 'Admin', 'WebMaster'] }
+   // canActivate: [RoleGuard],
+    //data: { roles: ['BasicUser', 'Admin', 'WebMaster'] }
   },
   {
     path: 'impersonation',

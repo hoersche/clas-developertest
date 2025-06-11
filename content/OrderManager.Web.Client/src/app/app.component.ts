@@ -43,12 +43,12 @@ export class AppComponent  {
   setupNavMenus(user: ApplicationUser) {
     const internalRoutes = [];
     internalRoutes.push(new InternalRoute('Home', 'home'));
-    if (user.isAuthenticated()) {
+    //if (user.isAuthenticated()) {
       internalRoutes.push(
         new InternalRoute('Orders', 'orders'),
         new InternalRoute('Another Page', 'other')
       );
-    }
+   // }
     if (user.isAdmin()) {
       internalRoutes.push(
         new InternalRoute('Impersonation', 'impersonation')

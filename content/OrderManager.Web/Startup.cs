@@ -2,9 +2,9 @@
 using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
+//using Microsoft.AspNetCore.Authentication;
+//using Microsoft.AspNetCore.Authentication.Cookies;
+//using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -18,7 +18,7 @@ using OrderManager.Application.Common;
 using OrderManager.Core.DbContext;
 using OrderManager.Web.Infrastructure;
 using Uiowa.Common.ActiveDirectory;
-using Uiowa.Login.Core.OIDC;
+//using Uiowa.Login.Core.OIDC;
 using AuthorizationPolicy = OrderManager.Web.Infrastructure.AuthorizationPolicy;
 
 namespace OrderManager.Web;
@@ -41,7 +41,7 @@ public class Startup
         services.AddDbContext<OrderManagerDbContext>(options => options.UseSqlServer(connString));
 
         services.AddControllers();
-        services.AddAuthentication(authOptions =>
+        /*services.AddAuthentication(authOptions =>
             {
                 authOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 authOptions.DefaultChallengeScheme = UiowaOpenIdConnectDefaults.AuthenticationScheme;
@@ -96,7 +96,7 @@ public class Startup
                         identity.AddClaim(new Claim(ClaimTypes.Role, role));
                     }
                 };
-            });
+            });*/
 
         services.AddSwaggerGen(c =>
         {
@@ -151,13 +151,13 @@ public class Startup
         app.UseHttpsRedirection();
         app.UseStaticFiles();
         app.UseAuthentication();
-        app.UseUserLoggingMiddleware();
+        //app.UseUserLoggingMiddleware();
         app.UseRouting();
-        app.UseAuthorization();
+        //app.UseAuthorization();
 
         app.UseEndpoints(endpoints =>
         {
-            endpoints.MapControllers().RequireAuthorization();
+            endpoints.MapControllers(); //.RequireAuthorization();
             endpoints.MapHealthChecks("/health");
             endpoints.MapFallbackToFile("index.html");
         });
