@@ -9,7 +9,7 @@ export class ApplicationUser {
   ) {}
 
   isAuthenticated(): boolean {
-    return !!this.hawkId;
+    return !this.hawkId;
   }
 
   isBasicUser(): boolean {

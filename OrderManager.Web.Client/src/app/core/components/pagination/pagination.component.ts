@@ -9,7 +9,7 @@ import {faBackward, faFastBackward, faFastForward, faForward} from "@fortawesome
     styleUrls: ['./pagination.component.css'],
     imports: [
         FaIconComponent,
-        FormsModule,
+        FormsModule
     ]
 })
 export class PaginationComponent {
