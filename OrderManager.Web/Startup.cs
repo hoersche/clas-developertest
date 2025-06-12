@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -17,8 +17,6 @@ using OrderManager.Application;
 using OrderManager.Application.Common;
 using OrderManager.Core.DbContext;
 using OrderManager.Web.Infrastructure;
-using Uiowa.Common.ActiveDirectory;
-//using Uiowa.Login.Core.OIDC;
 using AuthorizationPolicy = OrderManager.Web.Infrastructure.AuthorizationPolicy;
 
 namespace OrderManager.Web;
@@ -37,8 +35,7 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        var connString = Configuration.GetValue<string>("ConnectionStrings:OrderManager");
-        services.AddDbContext<OrderManagerDbContext>(options => options.In(connString));
+        services.AddDbContext<OrderManagerDbContext>(options => options.UseSqlite("Data Source=OrderManager.db"));
 
         services.AddControllers();
 
@@ -49,7 +46,7 @@ public class Startup
 
         services.AddScoped<IAuthorizationPolicy, AuthorizationPolicy>();
         
-        services.AddSingleton<IAdUtility, AdUtility>();
+        // services.AddSingleton<IAdUtility, AdUtility>();
         services.AddHttpContextAccessor();
         services.AddProblemDetails();
         services.AddExceptionHandler<BusinessRuleExceptionHandler>();
@@ -62,6 +59,13 @@ public class Startup
 
     public void Configure(IApplicationBuilder app, IHostEnvironment env)
     {
+
+        //get scope
+        using (var scope = app.ApplicationServices.CreateScope()){
+            var context  = scope.ServiceProvider.GetRequiredService<OrderManagerDbContext>();
+            context.Database.EnsureCreated();
+        }
+        
         app.UseExceptionHandler();
         app.UseStatusCodePages();
         

@@ -224,3 +224,5 @@ _Pvt_Extensions
 OrderManager\.Web/App_Data/logs/
 
 OrderManager\.Web/wwwroot/
+
+OrderManager.Web/OrderManager.db

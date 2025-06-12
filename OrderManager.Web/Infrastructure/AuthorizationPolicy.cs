@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using OrderManager.Core.Constants;
-using Uiowa.Common.ActiveDirectory;
+// using Uiowa.Common.ActiveDirectory;
 
 namespace OrderManager.Web.Infrastructure;
 
@@ -13,26 +13,21 @@ public interface IAuthorizationPolicy
 
 public class AuthorizationPolicy : IAuthorizationPolicy
 {
-    private readonly IAdUtility _adUtility;
+    // private readonly IAdUtility _adUtility;
     private readonly ILogger<AuthorizationPolicy> _logger;
 
-    public AuthorizationPolicy(ILogger<AuthorizationPolicy> logger, IAdUtility adUtility)
+    public AuthorizationPolicy(ILogger<AuthorizationPolicy> logger
+        // , IAdUtility adUtility
+        )
     {
-        _adUtility = adUtility;
+        // _adUtility = adUtility;
         _logger = logger;
     }
 
     public async Task<string> GetRole(string hawkId)
     {
         _logger.LogInformation($"Get User Role for [{hawkId}]");
-        if (_adUtility.IsUserInGroup(hawkId, "CLAS-TS-Developers"))
-        {
-            return AppRoles.WebMaster;
-        }
-        if (_adUtility.IsUserInGroup(hawkId, "CLAS-TS"))
-        {
-            return AppRoles.BasicUser;
-        }
+     
         return await Task.FromResult<string>(null);
     }
 

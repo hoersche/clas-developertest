@@ -23,18 +23,19 @@ public class OrdersService
     public async Task<PaginatedList<OrderDto>> GetOrders(OrdersWithPaginationQuery query)
     {
         return await _context.Orders
+            .Where(order => order.IsSystemGenerated())
             .Select(OrderDto.FromOrder)
             .OrderByDescending(x => x.Id)
             .ToPaginatedListAsync(query.PageNumber, query.PageSize);
     }
-
+    
     public async Task<int?> CreateOrder(CreateOrderCommand command)
     {
         var newOrder = new Order
         {
             Description = command.Description,
             CreatedAt = command.CreatedAt,
-            CreatedBy = _user.Name
+            CreatedBy = null
         };
         await _context.Orders.AddAsync(newOrder);
         await _context.SaveChangesAsync();
