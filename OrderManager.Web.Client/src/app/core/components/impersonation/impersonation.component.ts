@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../services/user.service';
-import { ImpersonationService } from '../../services/impersonation.service';
-import { FormsModule } from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {UserService} from '../../services/user.service';
+import {ImpersonationService} from '../../services/impersonation.service';
+import {FormsModule} from '@angular/forms';
 
-import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
+import {NgbAlert} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-impersonation',
@@ -12,21 +12,25 @@ import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
     imports: [NgbAlert, FormsModule]
 })
 export class ImpersonationComponent implements OnInit {
-  hawkId: string;
-  constructor(
-    public readonly userService: UserService,
-    private readonly impersonationService: ImpersonationService
-  ) {}
+    hawkId: string;
 
-  ngOnInit() {}
-  impersonate() {
-    if (!this.hawkId) {
-      return;
+    constructor(
+        public readonly userService: UserService,
+        private readonly impersonationService: ImpersonationService
+    ) {
     }
-    this.impersonationService.impersonate(this.hawkId);
-  }
 
-  stopImpersonate() {
-    this.impersonationService.stopImpersonate();
-  }
+    ngOnInit() {
+    }
+
+    impersonate() {
+        if (!this.hawkId) {
+            return;
+        }
+        this.impersonationService.impersonate(this.hawkId);
+    }
+
+    stopImpersonate() {
+        this.impersonationService.stopImpersonate();
+    }
 }

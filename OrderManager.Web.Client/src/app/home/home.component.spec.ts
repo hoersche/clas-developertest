@@ -1,18 +1,16 @@
-import {ComponentFixture, fakeAsync, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {HomeComponent} from './home.component';
 import * as axe from "axe-core";
-import {ToastrService} from "ngx-toastr";
 import {AsyncPipe} from '@angular/common';
 
 describe('HomeComponent', () => {
     let component: HomeComponent;
     let fixture: ComponentFixture<HomeComponent>;
     beforeEach(async () => {
-      
+
         await TestBed.configureTestingModule({
             imports: [AsyncPipe, HomeComponent],
-            providers: [
-            ],
+            providers: [],
         }).compileComponents();
 
         fixture = TestBed.createComponent(HomeComponent);
@@ -29,6 +27,6 @@ describe('HomeComponent', () => {
         const n = fixture.nativeElement;
         expect(await (axe.run(n))).toHaveNoViolations();
     });
-    
+
 
 });

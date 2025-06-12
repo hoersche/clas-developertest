@@ -1,7 +1,8 @@
 <div class="d-flex align-items-center justify-content-start my-2">
     <div class="d-flex mx-2 align-items-center">
         <label [for]="identifier+'select'" class="form-label me-2 my-0 text-nowrap">Page Size:</label>
-        <select [id]="identifier+'select'" class="form-select" [ngModel]="pageSize()" (ngModelChange)="pageSize.set($event)">
+        <select (ngModelChange)="pageSize.set($event)" [id]="identifier+'select'" [ngModel]="pageSize()"
+                class="form-select">
             <option [ngValue]="10">10</option>
             <option [ngValue]="20">20</option>
             <option [ngValue]="50">50</option>
@@ -9,22 +10,22 @@
         </select>
     </div>
     <span class="ag-paging-page-summary-panel">
-        <button class="btn btn-light" (click)="changePage(1)" [disabled]="currentPage()<=1">
+        <button (click)="changePage(1)" [disabled]="currentPage()<=1" class="btn btn-light">
             <fa-icon [icon]="firstPageIcon"></fa-icon>
             <span class="visually-hidden">Go to First Page</span>
         </button>
-        <button class="btn btn-light" (click)="changePage(currentPage() - 1)" [disabled]="currentPage()<=1">
+        <button (click)="changePage(currentPage() - 1)" [disabled]="currentPage()<=1" class="btn btn-light">
             <fa-icon [icon]="previousPageIcon"></fa-icon>
             <span class="visually-hidden">Go to Previous Page</span>
         </button>
         <output class="ag-paging-description">
-            <span >Page {{ currentPage() }} of {{totalPages()}}</span>
+            <span>Page {{ currentPage() }} of {{ totalPages() }}</span>
         </output>
-        <button class="btn btn-light" (click)="changePage(currentPage() + 1)" [disabled]="currentPage()>=totalPages()">
+        <button (click)="changePage(currentPage() + 1)" [disabled]="currentPage()>=totalPages()" class="btn btn-light">
             <fa-icon [icon]="nextPageIcon"></fa-icon>
             <span class="visually-hidden">Go to Next Page</span>
         </button>
-        <button class="btn btn-light" (click)="changePage(totalPages())" [disabled]="currentPage()>=totalPages()">
+        <button (click)="changePage(totalPages())" [disabled]="currentPage()>=totalPages()" class="btn btn-light">
             <fa-icon [icon]="lastPageIcon"></fa-icon>
             <span class="visually-hidden">Go to Last Page</span>
         </button>

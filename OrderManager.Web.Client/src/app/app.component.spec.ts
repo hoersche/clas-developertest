@@ -4,7 +4,7 @@ import {UserService} from "./core/services/user.service";
 import {ImpersonationService} from "./core/services/impersonation.service";
 import {SessionExpirationAlertComponent, SessionTimerService} from "session-expiration-alert";
 import {SessionInterruptorService} from "./core/services/session-interruptor.service";
-import { provideRouter } from '@angular/router';
+import {provideRouter} from '@angular/router';
 import * as axe from "axe-core";
 import {of} from "rxjs";
 
@@ -73,7 +73,7 @@ describe('AppComponent', () => {
         const footer = fixture.nativeElement.querySelector('app-footer');
         expect(footer).toBeTruthy();
     });
-    
+
     it('should be accessible', async () => {
         const element = fixture.nativeElement;
         expect(await axe.run(element)).toHaveNoViolations();

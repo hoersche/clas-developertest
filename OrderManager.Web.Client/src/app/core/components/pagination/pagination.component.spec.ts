@@ -11,16 +11,16 @@ describe('AppPaginationComponent', () => {
 
 
         await TestBed.configureTestingModule({
-            imports: [ PaginationComponent],
+            imports: [PaginationComponent],
             providers: [],
         }).compileComponents();
 
         fixture = TestBed.createComponent(PaginationComponent);
-        
+
         fixture.componentRef.setInput('currentPage', 1);
         fixture.componentRef.setInput('pageSize', 10);
         fixture.componentRef.setInput('totalPages', 5);
-        
+
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
@@ -31,7 +31,7 @@ describe('AppPaginationComponent', () => {
 
     it('should be accessible', async () => {
         const n = fixture.nativeElement;
-        expect(await(axe.run(n))).toHaveNoViolations();
+        expect(await (axe.run(n))).toHaveNoViolations();
     });
 });
 

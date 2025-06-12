@@ -1,13 +1,5 @@
-using System.Linq;
-using System.Net;
-using System.Security.Claims;
-using System.Threading.Tasks;
-//using Microsoft.AspNetCore.Authentication;
-//using Microsoft.AspNetCore.Authentication.Cookies;
-//using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,21 +9,23 @@ using OrderManager.Application;
 using OrderManager.Application.Common;
 using OrderManager.Core.DbContext;
 using OrderManager.Web.Infrastructure;
+//using Microsoft.AspNetCore.Authentication;
+//using Microsoft.AspNetCore.Authentication.Cookies;
+//using Microsoft.AspNetCore.Authorization;
 using AuthorizationPolicy = OrderManager.Web.Infrastructure.AuthorizationPolicy;
 
 namespace OrderManager.Web;
 
 public class Startup
 {
-
-    public IConfiguration Configuration { get; }
-    public IWebHostEnvironment Environment { get; }        
-
     public Startup(IConfiguration configuration, IWebHostEnvironment environment)
     {
         Environment = environment;
         Configuration = configuration;
     }
+
+    public IConfiguration Configuration { get; }
+    public IWebHostEnvironment Environment { get; }
 
     public void ConfigureServices(IServiceCollection services)
     {
@@ -45,7 +39,7 @@ public class Startup
         });
 
         services.AddScoped<IAuthorizationPolicy, AuthorizationPolicy>();
-        
+
         // services.AddSingleton<IAdUtility, AdUtility>();
         services.AddHttpContextAccessor();
         services.AddProblemDetails();
@@ -68,18 +62,15 @@ public class Startup
         
         app.UseExceptionHandler();
         app.UseStatusCodePages();
-        
+
         if (env.IsDevelopment())
         {
             app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "OrderManager API V1");
-            });
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "OrderManager API V1"); });
         }
         else
         {
-            app.UseHsts(options => options.MaxAge(days: 365).Preload().IncludeSubdomains());
+            app.UseHsts(options => options.MaxAge(365).Preload().IncludeSubdomains());
             app.UseXXssProtection(options => options.EnabledWithBlockMode());
             app.UseXfo(options => options.SameOrigin());
             app.UseCsp(opts => opts
@@ -109,6 +100,5 @@ public class Startup
             endpoints.MapHealthChecks("/health");
             endpoints.MapFallbackToFile("index.html");
         });
-            
     }
 }

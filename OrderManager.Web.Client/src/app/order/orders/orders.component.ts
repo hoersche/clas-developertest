@@ -39,10 +39,10 @@ export class OrdersComponent {
         private readonly toastr: ToastrService,
         private readonly modalService: NgbModal
     ) {
-        
+
         const pageNumber$ = toObservable(this.pageNumber);
         const pageSize$ = toObservable(this.pageSize);
-        
+
         this.orders$ = pageNumber$.pipe(
             combineLatestWith(pageSize$, this.orderReloader),
             switchMap(([pageNumber, pageSize]) => this.orderService.getOrders(pageNumber, pageSize)),

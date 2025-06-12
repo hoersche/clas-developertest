@@ -1,24 +1,25 @@
 <section class="container mt-2">
-  <ngb-alert type="warning" class="fade show" [dismissible]="false">
-    <p class="alert-heading" style="font-weight: 500;">Warning</p>
-    <p>Please logout or stop impersonation after you finish testing.</p>
-  </ngb-alert>
-  @if ((userService.getCurrentUser()); as user) {
-    <div>
-      @if (!user.originalUser) {
-        <form  (ngSubmit)="impersonate()">
-          <div class="mb-2 me-2">
-            <label for="hawkid" class="visually-hidden">HawkID</label>
-            <input type="text" class="form-control" id="hawkid" name="hawkId" placeholder="user HawkID" [(ngModel)]="hawkId">
-          </div>
-          <button type="submit" class="btn btn-primary mb-2">Impersonate</button>
-        </form>
-      }
-      @if (user.originalUser) {
-        <form (ngSubmit)="stopImpersonate()">
-          <button type="submit" class="btn btn-primary mb-2">Stop Impersonate</button>
-        </form>
-      }
-    </div>
-  }
+    <ngb-alert [dismissible]="false" class="fade show" type="warning">
+        <p class="alert-heading" style="font-weight: 500;">Warning</p>
+        <p>Please logout or stop impersonation after you finish testing.</p>
+    </ngb-alert>
+    @if ((userService.getCurrentUser()); as user) {
+        <div>
+            @if (!user.originalUser) {
+                <form (ngSubmit)="impersonate()">
+                    <div class="mb-2 me-2">
+                        <label for="hawkid" class="visually-hidden">HawkID</label>
+                        <input type="text" class="form-control" id="hawkid" name="hawkId" placeholder="user HawkID"
+                               [(ngModel)]="hawkId">
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-2">Impersonate</button>
+                </form>
+            }
+            @if (user.originalUser) {
+                <form (ngSubmit)="stopImpersonate()">
+                    <button type="submit" class="btn btn-primary mb-2">Stop Impersonate</button>
+                </form>
+            }
+        </div>
+    }
 </section>

@@ -1,29 +1,29 @@
 <div class="container">
-  <h2 class="text-danger my-4">Access Denied.</h2>
+    <h2 class="text-danger my-4">Access Denied.</h2>
 
-  @if (userService.getCurrentUser(); as user) {
-    <div class="my-5">
-      <ngb-alert type="info" class="fade show" [dismissible]="false">
-        <p class="alert-heading" style="font-weight: 500;">
-          Hello, {{ user.hawkId }},
-        </p>
-        <p>
-          Your account doesn't have enough permission to view protected content in
-          this website.
-        </p>
-      </ngb-alert>
-    </div>
-  } @else {
-    <ngb-alert type="danger" class="fade show" [dismissible]="false">
-      <p class="alert-heading" style="font-weight: 500;">Hello,</p>
-      <p>
-        You haven't logged in our system or your account doesn't have enough
-        permission.
-      </p>
-    </ngb-alert>
-  }
-  <button class="btn btn-primary" (click)="login()">
-    HawkID Login
-  </button>
+    @if (userService.getCurrentUser(); as user) {
+        <div class="my-5">
+            <ngb-alert type="info" class="fade show" [dismissible]="false">
+                <p class="alert-heading" style="font-weight: 500;">
+                    Hello, {{ user.hawkId }},
+                </p>
+                <p>
+                    Your account doesn't have enough permission to view protected content in
+                    this website.
+                </p>
+            </ngb-alert>
+        </div>
+    } @else {
+        <ngb-alert type="danger" class="fade show" [dismissible]="false">
+            <p class="alert-heading" style="font-weight: 500;">Hello,</p>
+            <p>
+                You haven't logged in our system or your account doesn't have enough
+                permission.
+            </p>
+        </ngb-alert>
+    }
+    <button (click)="login()" class="btn btn-primary">
+        HawkID Login
+    </button>
 </div>
 

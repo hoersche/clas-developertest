@@ -5,7 +5,6 @@ namespace OrderManager.Core.Utils;
 [Serializable]
 public class BusinessRuleException : Exception
 {
-    public string? Field { get; set; }
     public BusinessRuleException(string msg) : base(msg)
     {
     }
@@ -14,4 +13,6 @@ public class BusinessRuleException : Exception
     {
         Field = field;
     }
+
+    public string? Field { get; set; }
 }

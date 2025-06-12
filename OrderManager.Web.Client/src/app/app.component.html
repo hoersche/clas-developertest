@@ -1,15 +1,15 @@
 <uiowa-header
-  [externalLinks]="externalLinks"
-  [applicationName]="applicationName"
-  [internalRoutes]="internalRoutes()"
-  [user]="user()"
-  (stopImpersonation)="stopImpersonate()"
+        (stopImpersonation)="stopImpersonate()"
+        [applicationName]="applicationName"
+        [externalLinks]="externalLinks"
+        [internalRoutes]="internalRoutes()"
+        [user]="user()"
 >
 </uiowa-header>
-<main role="main" id="content" class="w-100 h-100 flex-fill p-0 overflow-auto">
-  <router-outlet></router-outlet>
+<main class="w-100 h-100 flex-fill p-0 overflow-auto" id="content" role="main">
+    <router-outlet></router-outlet>
 </main>
 <footer role="contentinfo">
-  <app-footer></app-footer>
+    <app-footer></app-footer>
 </footer>
 <session-expiration-alert [startTimer]="startTimer()"></session-expiration-alert>

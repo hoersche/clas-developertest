@@ -1,4 +1,4 @@
-import {ComponentFixture, fakeAsync, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {OrdersComponent} from './orders.component';
 import * as axe from "axe-core";
 import {OrderService} from 'src/api/orders/order.service';
@@ -53,5 +53,5 @@ describe('OrdersComponent', () => {
         const table = fixture.nativeElement.querySelector('table');
         expect(table).toBeTruthy();
     });
-    
+
 });

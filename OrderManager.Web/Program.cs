@@ -1,14 +1,13 @@
 using System;
 using System.IO;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using OrderManager.Web;
 using Serilog;
-using Serilog.Core.Enrichers;
 using Serilog.Events;
 using Serilog.Formatting.Compact;
-
 
 var loggerConfig = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
@@ -23,10 +22,10 @@ var loggerConfig = new LoggerConfiguration()
         rollingInterval: RollingInterval.Day,
         retainedFileCountLimit: 90 //most of our applications have a 90 day log retention policy
     )
-    .WriteTo.File(new RenderedCompactJsonFormatter(), "./App_Data/logs/log.json", rollingInterval: RollingInterval.Day, retainedFileCountLimit: 90,
+    .WriteTo.File(new RenderedCompactJsonFormatter(), "./App_Data/logs/log.json", rollingInterval: RollingInterval.Day,
+        retainedFileCountLimit: 90,
         restrictedToMinimumLevel: LogEventLevel.Information);
 var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? Environments.Production;
-
 
 
 if (environment != Environments.Development)
@@ -39,7 +38,7 @@ Log.Logger = loggerConfig.CreateLogger();
 try
 {
     Log.Information("====================================================================");
-    Log.Information("Application Starts. Version: {Version}", System.Reflection.Assembly.GetEntryAssembly()?.GetName().Version);
+    Log.Information("Application Starts. Version: {Version}", Assembly.GetEntryAssembly()?.GetName().Version);
 
 
     var builder = WebApplication.CreateBuilder(args);
@@ -56,13 +55,11 @@ try
         .AddJsonFile($"config/appsettings.{env.EnvironmentName}.json", true, true)
         .AddJsonFile($"config/appsettings.{Environment.MachineName}.json", true, true);
     if (env.IsDevelopment())
-    {
         // To use secrets please initialize secrets in your project
         // these are enabled by using `dotnet user-secrets init` but there are also gui solutions to manage these.
         config.AddUserSecrets<Startup>();
-    }
 
-    config.AddEnvironmentVariables(prefix: "OrderManager_");
+    config.AddEnvironmentVariables("OrderManager_");
 
 
     builder.Host.UseSerilog();

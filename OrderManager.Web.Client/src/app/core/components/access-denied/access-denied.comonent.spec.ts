@@ -17,7 +17,7 @@ describe('AccessDeniedComponent', () => {
             imports: [AccessDeniedComponent],
             providers: [
                 {provide: UserService, useValue: userServiceSpy},
-                {provide: LoginService, useValue: loginServiceSpy },
+                {provide: LoginService, useValue: loginServiceSpy},
             ],
         }).compileComponents();
 

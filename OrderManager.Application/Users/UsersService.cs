@@ -10,7 +10,7 @@ public class UsersService
     {
         _currentUser = currentUser;
     }
-    
+
     public CurrentUserDto GetCurrentUser()
     {
         return new CurrentUserDto

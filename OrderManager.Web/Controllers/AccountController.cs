@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
@@ -22,16 +21,17 @@ namespace OrderManager.Web.Controllers;
 [ApiExplorerSettings(IgnoreApi = true)]
 public class AccountController : ControllerBase
 {
-    private readonly ILogger<AccountController> _logger;
     private readonly IAuthorizationPolicy _authorizationPolicy;
+    private readonly ILogger<AccountController> _logger;
 
     public AccountController(IAuthorizationPolicy authorizationPolicy, ILogger<AccountController> logger)
     {
         _authorizationPolicy = authorizationPolicy;
         _logger = logger;
     }
-        
-    [HttpGet("login"), AllowAnonymous]
+
+    [HttpGet("login")]
+    [AllowAnonymous]
     public ActionResult Login([FromQuery] string returnUri)
     {
         // Prevent open redirect attack
@@ -40,16 +40,17 @@ public class AccountController : ControllerBase
         if (!string.IsNullOrEmpty(hawkId))
         {
             _logger.LogInformation("User [{HawkId}] is already logged in", hawkId);
-            return Redirect(redirectUri );
+            return Redirect(redirectUri);
         }
+
         _logger.LogInformation("User is not logged in, redirecting to login page");
         //redirect to returnUri
         return Challenge(new AuthenticationProperties
         {
-            RedirectUri = redirectUri 
+            RedirectUri = redirectUri
         });
     }
-        
+
     [HttpGet("logout")]
     public async Task Logout()
     {
@@ -61,15 +62,12 @@ public class AccountController : ControllerBase
         await HttpContext.SignOutAsync(UiowaOpenIdConnectDefaults.AuthenticationScheme);
     }
 
-    [HttpGet("user"), ProducesResponseType(typeof(CurrentUserDto), StatusCodes.Status200OK)]
+    [HttpGet("user")]
+    [ProducesResponseType(typeof(CurrentUserDto), StatusCodes.Status200OK)]
     public async Task<CurrentUserDto?> GetUser([FromServices] UsersService usersService)
     {
-        
         var currentUser = usersService.GetCurrentUser();
-        if (string.IsNullOrEmpty(currentUser?.HawkId))
-        {
-            return null;
-        }
+        if (string.IsNullOrEmpty(currentUser?.HawkId)) return null;
 
         var userAgent = Request.Headers[HeaderNames.UserAgent].ToString();
         _logger.LogInformation("[{HawkId}] User-Agent: {UserAgent}", currentUser.HawkId, userAgent);
@@ -77,15 +75,19 @@ public class AccountController : ControllerBase
     }
 
     [Authorize(Roles = AppRoles.Admin + "," + AppRoles.WebMaster)]
-    [HttpPost("impersonation"), ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+    [HttpPost("impersonation")]
+    [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
     public async Task<bool> Impersonation([FromBody] ImpersonationRequest request)
     {
         var currentUserHawkId = User.Identity.Name;
-        _logger.LogInformation("User [{CurrentUserHawkId}] is trying to impersonate [{ImpersonationHawkId}]", currentUserHawkId, request.HawkId);
+        _logger.LogInformation("User [{CurrentUserHawkId}] is trying to impersonate [{ImpersonationHawkId}]",
+            currentUserHawkId, request.HawkId);
         var originalUserHawkId = User.FindFirst("OriginalUser")?.Value;
         if (!string.IsNullOrEmpty(originalUserHawkId))
         {
-            _logger.LogInformation("User [{CurrentUserHawkId}] failed to impersonate [{ImpersonationHawkId}] already impersonating by [{OriginalUserHawkId}]", currentUserHawkId, request.HawkId, originalUserHawkId);
+            _logger.LogInformation(
+                "User [{CurrentUserHawkId}] failed to impersonate [{ImpersonationHawkId}] already impersonating by [{OriginalUserHawkId}]",
+                currentUserHawkId, request.HawkId, originalUserHawkId);
             throw new BusinessRuleException("Double-hop impersonation is NOT allowed.");
         }
 
@@ -93,23 +95,26 @@ public class AccountController : ControllerBase
         var impersonateResult = await _authorizationPolicy.CanImpersonate(userRole, request.HawkId);
         if (!impersonateResult.CanImpersonate)
         {
-            _logger.LogInformation("User [{CurrentUserHawkId}] not authorized to impersonate [{ImpersonationHawkId}]", currentUserHawkId, request.HawkId);
+            _logger.LogInformation("User [{CurrentUserHawkId}] not authorized to impersonate [{ImpersonationHawkId}]",
+                currentUserHawkId, request.HawkId);
             return false;
         }
 
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Name, request.HawkId),
-            new Claim(ClaimTypes.Role, impersonateResult.ImpersonatedUserRole ?? string.Empty),
-            new Claim("OriginalUser", currentUserHawkId)
+            new(ClaimTypes.Name, request.HawkId),
+            new(ClaimTypes.Role, impersonateResult.ImpersonatedUserRole ?? string.Empty),
+            new("OriginalUser", currentUserHawkId)
         };
 
         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+            new ClaimsPrincipal(claimsIdentity));
         return true;
     }
 
-    [HttpPost("impersonation/stop"), ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+    [HttpPost("impersonation/stop")]
+    [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
     public async Task<bool> StopImpersonation()
     {
         var currentUserHawkId = User.Identity.Name;
@@ -125,23 +130,27 @@ public class AccountController : ControllerBase
 
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Name, originalUserHawkId),
-            new Claim(ClaimTypes.Role, userRole ?? string.Empty),
-            new Claim("OriginalUser", string.Empty)
+            new(ClaimTypes.Name, originalUserHawkId),
+            new(ClaimTypes.Role, userRole ?? string.Empty),
+            new("OriginalUser", string.Empty)
         };
 
         await HttpContext.SignOutAsync();
         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+            new ClaimsPrincipal(claimsIdentity));
         return true;
     }
 
-    [HttpGet("AccessDenied"), AllowAnonymous, ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [HttpGet("AccessDenied")]
+    [AllowAnonymous]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public IActionResult AccessDenied()
     {
         var currentUserHawkId = User.Identity.Name;
         var returnUri = Request.Query["ReturnUrl"];
-        _logger.LogInformation("User [{CurrentUserHawkId}] tried to access {ReturnUri}, but failed", currentUserHawkId, returnUri);
+        _logger.LogInformation("User [{CurrentUserHawkId}] tried to access {ReturnUri}, but failed", currentUserHawkId,
+            returnUri);
         return StatusCode(403, $"Not Authorized Access to {returnUri}");
     }
 }

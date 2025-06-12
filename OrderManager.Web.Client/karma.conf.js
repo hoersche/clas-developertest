@@ -29,8 +29,8 @@ module.exports = function (config) {
             dir: require('path').join(__dirname, './coverage/test'),
             subdir: '.',
             reporters: [
-                { type: 'html' },
-                { type: 'text-summary' }
+                {type: 'html'},
+                {type: 'text-summary'}
             ]
         },
         reporters: ['progress', 'kjhtml'],

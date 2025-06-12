@@ -16,7 +16,7 @@ public class CurrentUser : IUser
     }
 
     private ClaimsPrincipal? User => _httpContextAccessor.HttpContext?.User;
-    
+
     public string? Name => User?.FindFirstValue(ClaimTypes.Name);
     public string? UnivId => User?.FindFirstValue(UiowaOpenIdClaimTypes.UniversityId);
     public string? OriginalUser => User?.FindFirstValue(AppClaims.OriginalUser);

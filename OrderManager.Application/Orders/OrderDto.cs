@@ -9,7 +9,7 @@ public record OrderDto
     public string Description { get; set; }
     public string CreatedAt { get; set; }
     public string CreatedBy { get; set; }
-    
+
 
     public static Expression<Func<Order, OrderDto>> FromOrder => x => new OrderDto
     {
@@ -18,6 +18,4 @@ public record OrderDto
         CreatedAt = x.CreatedAt.ToString("d"),
         CreatedBy = x.CreatedBy
     };
-
-
 }

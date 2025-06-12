@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 
 @Component({
     selector: 'app-footer',
@@ -8,18 +8,20 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
     standalone: true
 })
 export class AppFooterComponent implements OnInit {
-  year = 0;
-  emailLinkText = 'CLAS IT';
-  emailDistributionList = 'clas-technology-appdev@iowa.uiowa.edu';
-  emailSubject = 'Questions about the OrderManager Website';
-  emailHref: string;
-  constructor() {}
+    year = 0;
+    emailLinkText = 'CLAS IT';
+    emailDistributionList = 'clas-technology-appdev@iowa.uiowa.edu';
+    emailSubject = 'Questions about the OrderManager Website';
+    emailHref: string;
 
-  ngOnInit() {
-    const today = new Date();
-    this.year = today.getFullYear();
-    this.emailHref = `mailto:${
-      this.emailDistributionList
-    }?subject=${this.emailSubject.replace(' ', '%20')}`;
-  }
+    constructor() {
+    }
+
+    ngOnInit() {
+        const today = new Date();
+        this.year = today.getFullYear();
+        this.emailHref = `mailto:${
+            this.emailDistributionList
+        }?subject=${this.emailSubject.replace(' ', '%20')}`;
+    }
 }

@@ -6,11 +6,12 @@ namespace OrderManager.Core.DbContext;
 
 public class OrderManagerDbContext : Microsoft.EntityFrameworkCore.DbContext
 {
-    public virtual DbSet<Order> Orders { get; protected set; }
     public OrderManagerDbContext(DbContextOptions<OrderManagerDbContext> options) : base(options)
     {
-
     }
+
+    public virtual DbSet<Order> Orders { get; protected set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new OrderEntityTypeConfiguration());

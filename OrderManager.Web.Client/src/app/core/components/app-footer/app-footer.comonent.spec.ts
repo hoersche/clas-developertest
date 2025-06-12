@@ -8,10 +8,10 @@ describe('AppFooterComponent', () => {
     let fixture: ComponentFixture<AppFooterComponent>;
 
     beforeEach(async () => {
-    
+
 
         await TestBed.configureTestingModule({
-            imports: [ AppFooterComponent],
+            imports: [AppFooterComponent],
             providers: [],
         }).compileComponents();
 
@@ -23,10 +23,10 @@ describe('AppFooterComponent', () => {
     it('builds the component successfully', () => {
         expect(component).toBeTruthy();
     });
-    
+
     it('should be accessible', async () => {
         const n = fixture.nativeElement;
-        expect(await(axe.run(n))).toHaveNoViolations();
+        expect(await (axe.run(n))).toHaveNoViolations();
     });
 });
 

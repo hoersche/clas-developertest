@@ -21,6 +21,7 @@ export class PaginationComponent {
     readonly previousPageIcon = faBackward;
     readonly nextPageIcon = faForward;
     readonly lastPageIcon = faFastForward;
+
     constructor() {
     }
 

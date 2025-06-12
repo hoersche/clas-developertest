@@ -19,7 +19,7 @@ public class OrdersController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<PaginatedList<OrderDto>>> Get([FromQuery]OrdersWithPaginationQuery query)
+    public async Task<ActionResult<PaginatedList<OrderDto>>> Get([FromQuery] OrdersWithPaginationQuery query)
     {
         return await _ordersService.GetOrders(query);
     }

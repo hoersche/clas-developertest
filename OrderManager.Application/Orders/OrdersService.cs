@@ -10,8 +10,8 @@ namespace OrderManager.Application.Orders;
 public class OrdersService
 {
     private readonly OrderManagerDbContext _context;
-    private readonly IUser _user;
     private readonly ILogger<OrdersService> _logger;
+    private readonly IUser _user;
 
     public OrdersService(OrderManagerDbContext context, IUser user, ILogger<OrdersService> logger)
     {
@@ -28,7 +28,7 @@ public class OrdersService
             .OrderByDescending(x => x.Id)
             .ToPaginatedListAsync(query.PageNumber, query.PageSize);
     }
-    
+
     public async Task<int?> CreateOrder(CreateOrderCommand command)
     {
         var newOrder = new Order
@@ -43,7 +43,7 @@ public class OrdersService
     }
 
     public async Task DeleteOrder(int id)
-    {   
+    {
         _logger.LogInformation($"User [{_user.Name}] is deleting an order");
         var order = await _context.Orders.FindAsync(id);
         _context.Orders.Remove(order);

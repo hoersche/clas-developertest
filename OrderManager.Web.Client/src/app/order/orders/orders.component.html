@@ -1,7 +1,7 @@
 <h2 class="my-2">Orders</h2>
 <div class="d-flex justify-content-between">
     <div class="p-2">
-        <button class="btn btn-primary" (click)="reloadOrders()">
+        <button (click)="reloadOrders()" class="btn btn-primary">
             Refresh
         </button>
     </div>
@@ -39,7 +39,8 @@
                         <td></td>
                         <td class="text-nowrap">
                             <label for="createOrderDescription" class="visually-hidden">New Order:</label>
-                            <input id="createOrderDescription" type="text" class="form-control" [(ngModel)]="createOrderRequest.description">
+                            <input id="createOrderDescription" type="text" class="form-control"
+                                   [(ngModel)]="createOrderRequest.description">
                         </td>
                         <td></td>
                         <td></td>
@@ -69,7 +70,7 @@
 <ng-template #deleteOrderModal let-c="close()" let-d="dismiss()">
     <div class="modal-header">
         <h4 class="modal-title background-danger">Are you sure to delete Order #{{ selectedOrder?.id }}?</h4>
-        <button type="button" class="btn-close" aria-label="Close" (click)="d">
+        <button (click)="d" aria-label="Close" class="btn-close" type="button">
         </button>
     </div>
     <div class="modal-body">
@@ -78,7 +79,7 @@
             {{ selectedOrder?.description }}</p>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-danger" (click)="deleteOrder()">Delete</button>
-        <button type="button" class="btn btn-outline-dark" (click)="c">Cancel</button>
+        <button (click)="deleteOrder()" class="btn btn-danger" type="button">Delete</button>
+        <button (click)="c" class="btn btn-outline-dark" type="button">Cancel</button>
     </div>
 </ng-template>
