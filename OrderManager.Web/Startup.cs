@@ -38,65 +38,9 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         var connString = Configuration.GetValue<string>("ConnectionStrings:OrderManager");
-        services.AddDbContext<OrderManagerDbContext>(options => options.UseSqlServer(connString));
+        services.AddDbContext<OrderManagerDbContext>(options => options.In(connString));
 
         services.AddControllers();
-        /*services.AddAuthentication(authOptions =>
-            {
-                authOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                authOptions.DefaultChallengeScheme = UiowaOpenIdConnectDefaults.AuthenticationScheme;
-            })
-            .AddCookie(options =>
-            {
-                options.Cookie.Name = "OrderManagerAuth";
-                options.Cookie.SameSite = SameSiteMode.None;
-                options.Cookie.HttpOnly = true;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                options.Events.OnRedirectToLogin = context =>
-                {
-                    context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                    return Task.CompletedTask;
-                };
-            })
-            .AddUiowaOpenIdConnect(oidcOptions =>
-            {
-                oidcOptions.ClientId = Configuration["UiowaOIDC:ClientId"];
-                oidcOptions.ClientSecret = Configuration["UiowaOIDC:ClientSecret"];
-                // Use default unless set in appsettings
-                if (Configuration["UiowaOIDC:Authority"] != null)
-                {
-                    oidcOptions.Authority = Configuration["UiowaOIDC:Authority"]!;
-                }
-            }, events =>
-            {
-                events.OnRedirectToIdentityProvider += context =>
-                {
-                    // Don't Redirect Web API's if API just say not authorized.
-                    var apiPaths = new[] { "/api", "/account/user" };
-                    if (apiPaths.Any(path => context.Request.Path.StartsWithSegments(path)))
-                    {
-                        context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                        context.HandleResponse();
-                    }
-                    return Task.CompletedTask;
-                };
-                events.OnUserInformationReceived += async context => {
-                    var authPolicy = context.HttpContext.RequestServices.GetRequiredService<IAuthorizationPolicy>();
-                    var hawkId = context.User.RootElement.GetString("uiowahawkid");
-                    
-                    if (hawkId == null)
-                    {
-                        context.Fail("Missing uiowahawkid claim");
-                        return;
-                    }
-                    
-                    var role = await authPolicy.GetRole(hawkId);
-                    if (context.Principal?.Identity is ClaimsIdentity identity)
-                    {
-                        identity.AddClaim(new Claim(ClaimTypes.Role, role));
-                    }
-                };
-            });*/
 
         services.AddSwaggerGen(c =>
         {
