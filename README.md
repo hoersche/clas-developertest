@@ -1,6 +1,4 @@
-# CLAS Web Application Template
-
-## Template Application: OrderManager
+# CLAS Web Application - OrderManager
 
 It is a sample web application based on ASP.NET Core and Angular.
 
