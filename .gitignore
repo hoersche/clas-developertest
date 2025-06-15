@@ -226,3 +226,4 @@ OrderManager\.Web/App_Data/logs/
 OrderManager\.Web/wwwroot/
 
 OrderManager.Web/OrderManager.db
+OrderManager.Web.Client/obj\Debug/\package.g.props
