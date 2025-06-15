@@ -12,6 +12,7 @@
 
     <ItemGroup>
         <Folder Include="App_Data"/>
+        <Folder Include="App_Data\logs\" />
     </ItemGroup>
 
   <ItemGroup>
@@ -27,8 +28,10 @@
     <PackageReference Include="Serilog.Enrichers.Thread" Version="4.0.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+      <!--  Removed these nuget packages as they appear to come from a private source I dont have access to.
     <PackageReference Include="Uiowa.Common.ActiveDirectory" Version="2.2.9" />
     <PackageReference Include="Uiowa.Login.Core.OIDC" Version="0.1.*" />
+    -->
   </ItemGroup>
 
     <ItemGroup>

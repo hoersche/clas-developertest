@@ -13,7 +13,10 @@ using OrderManager.Core.Constants;
 using OrderManager.Core.Utils;
 using OrderManager.Web.Infrastructure;
 using OrderManager.Web.Requests;
-using Uiowa.Login.Core.OIDC;
+// Commented out to get working
+// Assuming there is a UIOWA NuGet Artifactory I don't have access to
+// Since I don't have a UI Login I dont suspect I will use these methods.
+// using Uiowa.Login.Core.OIDC;
 
 namespace OrderManager.Web.Controllers;
 
@@ -54,12 +57,16 @@ public class AccountController : ControllerBase
     [HttpGet("logout")]
     public async Task Logout()
     {
+        // JAG Commented this code out since I dont have a UIowa userid, these won't be used for this
+        // exercise
+        /*
         var hawkId = User?.Identity?.Name;
         _logger.LogInformation("User [{HawkId}] is logging out", hawkId);
         // Destroy our application's session cookie            
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         // Redirects the user to uiowa logout page            
         await HttpContext.SignOutAsync(UiowaOpenIdConnectDefaults.AuthenticationScheme);
+        */
     }
 
     [HttpGet("user")]

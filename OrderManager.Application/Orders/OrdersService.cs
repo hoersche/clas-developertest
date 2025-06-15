@@ -23,7 +23,8 @@ public class OrdersService
     public async Task<PaginatedList<OrderDto>> GetOrders(OrdersWithPaginationQuery query)
     {
         return await _context.Orders
-            .Where(order => order.IsSystemGenerated())
+            // JAG not sure the intention since that method returns hardcoded false
+            // needs further investigation -> .Where(order => order.IsSystemGenerated())
             .Select(OrderDto.FromOrder)
             .OrderByDescending(x => x.Id)
             .ToPaginatedListAsync(query.PageNumber, query.PageSize);
@@ -35,7 +36,9 @@ public class OrdersService
         {
             Description = command.Description,
             CreatedAt = command.CreatedAt,
-            CreatedBy = null
+            // JAG
+            //TODO:  CreatedBy cannot be null, further investigation is required to implement this logic.
+            CreatedBy = "NA" //null 
         };
         await _context.Orders.AddAsync(newOrder);
         await _context.SaveChangesAsync();
